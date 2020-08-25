@@ -1,107 +1,11 @@
-# 综合
-## 1. React和Vue的区别
-- 相同点：
-
-    1、react和vue都支持服务端渲染
-    
-    2、利用虚拟DOM实现快速渲染，组件化开发，通过props传参进行父子组件数据的传递
-    
-    3、都是数据驱动视图
-    
-    4、都有支持native的方案（react的react native，vue的weex）
-    
-    5、都有状态管理（react有redux，vue有vuex）
-
-- 不同点：
-
-  1、监听数据变化的实现原理不同
-    - Vue 通过 getter/setter 以及一些函数的劫持，能精确知道数据变化，不需要特别的优化就能达到很好的性能
-    - React 默认是通过比较引用的方式进行的，如果不优化（PureComponent/shouldComponentUpdate）可能导致大量不必要的VDOM的重新渲染
-    
-  2、数据流的不同
-    - vue实现了数据的双向绑定react数据流动是单向的
-
-  3、HoC 和 mixins
-    - 在 Vue 中我们组合不同功能的方式是通过 mixin，而在React中我们通过 HoC (高阶组件）。
-  
-  4、组件通信的区别
-    - Vue中子组件向父组件传递消息有两种方式：事件和回调函数，而且Vue更倾向于使用事件。但是在 React 中我们都是使用回调函数的，这可能是他们二者最大的区别。
- 
-  5、模板渲染方式的不同
-    - React 是通过JSX渲染模板。React是在组件JS代码中，通过原生JS实现模板中的常见语法，比如插值，条件，循环等，都是通过JS语法实现的
-    - Vue是通过一种拓展的HTML语法进行渲染。Vue是在和组件JS代码分离的单独的模板中，通过指令来实现的，比如条件语句就需要 v-if 来实现
-   
-  6、Vuex 和 Redux 的区别
-    - Redux 使用的是不可变数据，而Vuex的数据是可变的。Redux每次都是用新的state替换旧的state，而Vuex是直接修改。
-    - Redux 在检测数据变化的时候，是通过 diff 的方式比较差异的，而Vuex其实和Vue的原理一样，是通过 getter/setter来比较的（如果看Vuex源码会知道，其实他内部直接创建一个Vue实例用来跟踪数据变化）。
-
-## 2. MVC、MVP和MVVM的区别
-1. MVC
-  - View：负责视图显示，将Model中的数据显示出来。检测用户的键盘、鼠标等行为，传递调用Controller执行应用逻辑,View更新需要重新获取Model的数据
-  - Controller：负责View和Model之间协作的应用逻辑或业务逻辑处理，根据用户行为对Model中的数据进行修改。
-  - Model：负责保存数据，Model变更后，通过观察者模式通知View更新视图。
-2. MVP
-  - Passive View：View不再处理同步逻辑，对Presenter提供接口调用。由于不再依赖Model，可以让View从特定的业务场景中抽离，完全可以做到组件化。
-  - Presenter（Supervising Controller）： 和经典MVC的Controller相比，任务更加繁重，不仅要处理应用业务逻辑，还要处理同步逻辑(高层次复杂的UI操作)。
-  - Model：Model变更后，通过观察者模式通知Presenter，如果有视图更新，Presenter又可能调用View的接口更新视图。
-3. MVVM
-  - ViewModel：内部集成了Binder(Data-binding Engine，数据绑定引擎)，在MVP中派发器View或Model的更新都需要通过Presenter手动设置，而Binder则会实现View和Model的双向绑定，从而实现View或Model的自动更新。
-  - View：可组件化，例如目前各种流行的UI组件框架，View的变化会通过Binder自动更新相应的Model。
-  - Model：Model的变化会被Binder监听(仍然是通过观察者模式)，一旦监听到变化，Binder就会自动实现视图的更新。
-
-4. 区别
-   - 三者都是框架模式，它们的设计目标都是为了解决Model和View的耦合问题。
-   - MVC模式出现较早主要应用在后端，在前端领域早期也有应用，如Backbone.js。它的优点是职责分离，分层清晰，多视图更新，缺点是数据流混乱，灵活性带来的维护性问题，依赖强烈，View强依赖Model(特定业务场景)，因此View无法组件化设计。
-   - MVP模式在是MVC的进化形式，View可组件化设计，Presenter作为中间层负责MV通信，解决了两者耦合问题，但P层过于臃肿会导致维护问题。
-   - MVVM模式在前端领域广泛应用，它不仅解决MV耦合问题，还同时解决了维护两者映射关系的大量繁杂代码和DOM操作代码，在提高开发效果，可读性同时还保持了优越的性能表现。 
-  
-
-## 3. 怎么将前端项目部署到服务器
-1. 购买云服务器
-    - 注意：如果想对外宣传的话，需要购买域名
-    - 操作方法：
-    1. 购买域名（产品菜单->域名注册->购买）
-    2. 解析（控制台->域名）
-    3. 备案
-2. 搭建服务器环境
-    - 就是你本地开发那个环境，放在服务器上，不过设置成生产环境。
-
-3. 部署项目
-    - 建议用git，在本地安装好git后，找一个git服务器托管，git push，上传进去，再登录服务器用git clone下载下来，启动服务器，大功告成！
-
-## 4. 前端模块化的认识
-- 模块：将一个复杂的程序依据一定的规则(规范)封装成几个块(文件), 并进行组合在一起
-- 模块化的好处：更好的分离, 按需加载；更高复用性；高可维护性。
-- 模块化规范：CommonJS、AMD、CMD
-
-## 5. 前端性能优化
-代码层面：避免使用css表达式，避免使用高级选择器，通配选择器。
-
-缓存利用：缓存Ajax，使用CDN，使用外部js和css文件以便缓存，添加Expires头，服务端配置Etag，减少DNS查找等
-
-请求数量：合并样式和脚本，使用css图片精灵，初始首屏之外的图片资源按需加载，静态资源延迟加载。
-
-请求带宽：压缩文件，开启GZIP，
-
-## 6. 前端常见兼容性问题
-- 样式兼容
-    1. 不同浏览器的默认样式存在差异，可以使用 Normalize.css 抹平这些差异。当然，你也可以定制属于自己业务的 reset.css。比如加一个全局的*{margin:0;padding:0;}来统一。
-    2. 部分属性需加浏览器前缀
-    ![](https://user-gold-cdn.xitu.io/2020/7/12/173411678b5f4d45?w=642&h=386&f=png&s=20955)
-
-- 交互兼容性
-    1. 添加绑定事件、取消事件监听、阻止事件冒泡，取消默认事件
-    2. new Date()构造函数使用，正确的兼容用法是'2018/07/05'
-    3. 求窗口大小的兼容写法clientWidth、scrollWidth、offsetWidth、scrollTop： 
-    例：document.documentElement.scrollTop||document.body.scrollTop;
-## 7. ---
-
+# Vue、React、webpack、浏览器、node
 
 # Vue.js
 ## 1. 运行机制
 ### 初始化流程
  - 创建Vue实例对象
- - init过程会初始化生命周期，初始化事件中心，初始化渲染、执行beforeCreate周期函数、初始化 data、props、computed、watcher、执行created周期函数等。
+ - init过程会初始化
+ - ，初始化事件中心，初始化渲染、执行beforeCreate周期函数、初始化 data、props、computed、watcher、执行created周期函数等。
  - 初始化后，调用$mount方法对Vue实例进行挂载（挂载的核心过程包括模板编译、渲染以及更新三个过程）。
  - 如果没有在Vue实例上定义render方法而是定义了template，那么需要经历编译阶段。需要先将template 字符串编译成 render function，template 字符串编译步骤如下：
 
@@ -174,12 +78,14 @@
 - 设置computed的getter，如果执行了computed对应的函数，由于函数会读取data属性值，因此又会触发data属性值的getter函数，在这个执行过程中就可以处理computed相对于data的依赖收集关系了
 - 首次计算computed的值时，会执行vm.computed属性对应的getter函数（用户指定的computed函数，如果没有设置getter，那么将当前指定的函数赋值computed属性的getter），进行上述的依赖收集
 - 如果computed的属性值又依赖了其他computed计算属性值，那么会将当前target暂存到栈中，先进行其他computed计算属性值的依赖收集，等其他计算属性依赖收集完成后，在从栈中pop出来，继续进行当前computed的依赖收集
-
+ 
 ## 5. nextTick
 目的就是产生一个回调函数加入task或者microtask中，当前栈执行完以后（可能中间还有别的排在前面的函数）调用该回调函数，起到了异步触发（即下一个tick时触发）的目的。
 
 ## 6. vue-router有哪几种导航守卫
-    Vue-router 导航守卫分别有全局守卫，独享守卫和组件内守卫，一般用的最多的就是router.beboreEach(进入路由之前) 里做权限校验，或者组件内的权限校验用的beforeRouteEnter
+
+Vue-router 导航守卫分别有全局守卫，独享守卫和组件内守卫，一般用的最多的就是router.beboreEach(进入路由之前) 里做权限校验，或者组件内的权限校验用的beforeRouteEnter
+
 - 全局守卫：
     - router.beforeEach 全局前置守卫 进入路由之前
     - router.beforeResolve 全局解析守卫(2.5.0+) 在beforeRouteEnter调用之后调用
@@ -192,7 +98,20 @@
     - beforeRouteEnter 进入路由前, 在路由独享守卫后调用，不能获取组件实例this，组件实例还没被创建
     - beforeRouteUpdate (2.2) 路由复用同一个组件时, 在当前路由改变，但是该组件被复用时调用
     - beforeRouteLeave 离开当前路由时, 导航离开该组件的对应路由时调用
-   
+
+- 完整的导航解析流程
+  1. 导航被触发。
+  2. 在失活的组件里调用 beforeRouteLeave 守卫。
+  3. 调用全局的 beforeEach 守卫。
+  4. 在重用的组件里调用 beforeRouteUpdate 守卫 (2.2+)。
+  5. 在路由配置里调用 beforeEnter。
+  6. 解析异步路由组件。
+  7. 在被激活的组件里调用 beforeRouteEnter。
+  8. 调用全局的 beforeResolve 守卫 (2.5+)。
+  9. 导航被确认。
+  10. 调用全局的 afterEach 钩子。
+  11. 触发 DOM 更新。
+  12. 调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。
 
 ## 7. 权限校验
 ### 登陆态校验
@@ -237,12 +156,31 @@ keep-alive 是 Vue  内置的一个组件，可以使被包含的组件保留状
 如果需要让一个自定义组件支持 v-model=’value’ 指令实现双向数据绑定，即表示父组件调用子组件时用value属性传递了输入框值，以及绑定了一个input事件，可以通过这个事件让子组件给父组件传参。
 
 ## 11. computed 和 watch 的区别和运用的场景
-- computed 
+### computed 
   - 定义：是计算属性，依赖其它属性值，并且 computed 的值有缓存，只有它依赖的属性值发生改变，下一次获取 computed 的值时才会重新计算 computed 的值；
   - 运用场景：当我们需要进行数值计算，并且依赖于其它数据时，应该使用 computed，因为可以利用 computed 的缓存特性，避免每次获取值时，都要重新计算；
-- watch 
-    - 定义：更多的是「观察」的作用，类似于某些数据的监听回调 ，每当监听的数据变化时都会执行回调进行后续操作；
-    - 运用场景：当我们需要在数据变化时执行异步或开销较大的操作时，应该使用 watch，使用 watch 选项允许我们执行异步操作 ( 访问一个 API )，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。
+  - 区别：
+  
+  	1.computed支持缓存（只有引用的响应式属性改变时才会重新计算）
+
+	2.computed不支持异步操作
+
+	3.computed中的属性有一个get和set方法，如果属性为函数时，默认调用get方法。
+
+### watch 
+   - 定义：更多的是「观察」的作用，类似于某些数据的监听回调 ，每当监听的数据变化时都会执行回调进行后续操作；
+   - 运用场景：当我们需要在数据变化时执行异步或开销较大的操作时，应该使用 watch，使用 watch 选项允许我们执行异步操作 ( 访问一个 API )，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。
+   - 区别：
+   
+    1.watch不支持缓存，会直接监听数据，当数据改变时，会直接触发对于的操作
+
+	2.watch支持异步操作
+	
+	3.watch可以接收参数（oldValue，newValue）
+	
+	4.watch中的属性必须时data中声明或者其他组件传递过来的数据
+
+	5.watch中的属性为对象时，可以使用其handler方法、immediate属性（当为true时，页面刷新时就会调用handler方法）和deep属性（当为true时，能够监听复杂属性类型）
 
 ## 12. 对vue生命周期的理解
 - created/mounted/updated/destroyed，以及对应的before钩子。分别是创建=>挂载=>更新=>销毁。
@@ -252,16 +190,16 @@ keep-alive 是 Vue  内置的一个组件，可以使被包含的组件保留状
 
 ## 13. Vue 怎么实现数据双向绑定的：
 - 实现一个监听器Observer：
-    对数据对象进行遍历，包括子属性对象的属性，利用 Object.defineProperty() 对属性都加上 setter 和 getter。这样的话，给这个对象的某个值赋值，就会触发 setter， 那么就能监听到了数据变化。
+  对数据对象进行遍历，包括子属性对象的属性，利用 Object.defineProperty() 对属性都加上 setter 和 getter。这样的话，给这个对象的某个值赋值，就会触发 setter， 那么就能监听到了数据变化。
 
 - 实现一个解析器 Compile：
-    解析 Vue 模板指令，将模板中的变量都替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，调用更新函数进行数据更新。
+  解析 Vue 模板指令，将模板中的变量都替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，调用更新函数进行数据更新。
 
 - 实现一个订阅者 Watcher：
-    Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁 ，主要的任务是订阅 Observer 中的属性值变化的消息，当收到属性值变化的消息时，触发解析器 Compile 中对应的更新函数。
+  Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁 ，主要的任务是订阅 Observer 中的属性值变化的消息，当收到属性值变化的消息时，触发解析器 Compile 中对应的更新函数。
 
 - 实现一个订阅器 Dep：
-    订阅器采用 发布-订阅 设计模式，用来收集订阅者 Watcher，对监听器 Observer 和 订阅者 Watcher 进行统一管理。
+  订阅器采用 发布-订阅 设计模式，用来收集订阅者 Watcher，对监听器 Observer 和 订阅者 Watcher 进行统一管理。
 
 ## 14. 组件间相互通信的方法
 1. props / $emit 适用 父子组件通信
@@ -284,8 +222,36 @@ keep-alive 是 Vue  内置的一个组件，可以使被包含的组件保留状
   - 这个 prop 以一种原始的值传入且需要进行转换。 在这种情况下，最好使用这个 prop 的值来定义一个计算属性
 
 ## 16. 路由跳转的方式
+1. router-link
+2. this.$router.push()。用params传参只能用name，如果用path则用query传参或者手写带有完整参数的path.
+3. this.$router.replace()，与上一个不同的是history栈中不会有记录。
+4. this.$router.go(n)，向前或者向后跳转n个页面，n可为正整数或负整数。
 
+## 17.vuex（参考：https://www.jianshu.com/p/2e5973fe1223）
+- 定义：VueX是适用于在Vue项目开发时使用的状态管理工具.
+- 使用场景：单页应用中，组件之间的共享状态和方法。
+- 安装：
+	1. npm 安装 Vuex  `npm i vuex -s`
+	2. 在项目的根目录下新增一个store文件夹，在该文件夹内创建index.js
+- 使用：
+	1. 初始化store下index.js中的内容，export输出
+	2. 在main.js中引入store， 将store挂载到当前项目的Vue实例当中去
+	3. 在组件中使用Vuex `this.$store.state.xxx`就能获取到store中定义的状态xxx
+- 属性：
+	1. state：包含了store中存储的各个状态。
+	2. getter: 类似于 Vue 中的计算属性，根据其他 getter 或 state 计算返回值。
+	3. mutation:定义的方法动态修改Vuex 的 store 中的状态或数据，只能是同步操作。
+	4. action: 由于直接在mutation方法中进行异步操作，将会引起数据失效。所以提供了Actions来专门进行异步操作，最终提交mutation方法。view 层通过 store.dispatch 来分发 action。
+	5. modules：项目特别复杂的时候，可以让每一个模块拥有自己的state、mutation、action、getters,使得结构非常清晰，方便管理。
 
+## 18. 路由按需引入
+1. `component: () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')`
+2. `component: resolve => require(['../components/PromiseDemo'], resolve)`
+
+## 19. vue项目中遇到的问题
+- 打包文件太大，使用路由懒加载，对代码进行分割，require/import；
+- setInterval路由跳转继续运行并没有及时进行销毁，在beforeDestory中clearInterval；
+- 
 
 # React
 ## 1. 高阶组件
@@ -330,6 +296,41 @@ keep-alive 是 Vue  内置的一个组件，可以使被包含的组件保留状
     - 对于loader，它就是一个转换器，将A文件进行编译形成B文件，这里操作的是文件，比如将A.scss或A.less转变为B.css，单纯的文件转换过程。
     - plugin是一个扩展器，它丰富了wepack本身，针对是loader结束后，webpack打包的整个过程，它并不直接操作文件，而是基于事件机制工作，会监听webpack打包过程中的某些节点，执行广泛的任务。
 
+## 3. webpack提高打包速度
+（参考：https://blog.csdn.net/weixin_40811829/article/details/88599201；https://blog.csdn.net/xiaoenwu/article/details/106698039）
+### 1. 使用 DLLPlugin和DLLReferencePlugin两个插件 提高打包速度
+  - 单独对那些不常更新的第三方模块进行打包，使第三方模块只打包一次，以后的每次构建都只会生成自己的业务代码，可以很好的提高构建效率。
+### 2. 优化loader配置
+  - 缩小文件匹配范围(include/exclude)，exclude用于排除不处理的目录，通过排除node_modules下的文件 从而缩小了loader加载搜索范围 高概率命中文件；
+  - 缓存loader的执行结果(cacheDirectory)。
+### 3. resolve优化配置
+  - 优化模块查找路径 resolve.modules。为了减少搜索范围，可以直接写明 node_modules 的全路径。
+  -  resolve.alias 配置路径别名。配置项通过别名来把原导入路径映射成一个新的导入路径 此优化方法会影响使用Tree-Shaking去除无效代码。
+  -  resolve.extensions，当引入模块时不带文件后缀 webpack会根据此配置自动解析确定的文件后缀，后缀列表尽可能小，频率最高的往前放，导出语句尽可能带上后缀。
+### 4. module.noParse
+  - 对于引入的大型第三方库，不需要将其解析成语法树来解析依赖，提高构建速度。被定义在该配置中的模块中，不能调用import/require/define等引入机制(没采用模块化)。例如jquery.
+### 5. HappyPack
+  - 让webpack对loader的执行过程，从单一进程形式扩展为多进程模式，也就是将任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。从而加速代码构建 与 DLL动态链接库结合来使用更佳。
+### 6. ParallelUglifyPlugin
+  - 这个插件可以帮助有很多入口点的项目加快构建速度。把对JS文件的串行压缩变为开启多个子进程并行进行uglify。
+### 7. terser-webpack-plugin
+  - 对js进行压缩的插件
+### 8. 模块化引入
+```
+import {chain, cloneDeep} from 'lodash';
+// 可以改写为
+import chain from 'lodash/chain';
+import cloneDeep from 'lodash/cloneDeep';
+```
+### 9. 开启Gzip压缩
+
+
+
+
+
+
+
+
 # 浏览器
 ## 1. 讲讲304缓存的原理
 - 服务器首先产生ETag，服务器可在稍后使用它来判断页面是否已经被修改。本质上，客户端通过将该记号传回服务器要求服务器验证其（客户端）缓存。
@@ -354,13 +355,15 @@ application/x-www-form-urlencoded、multipart/form-data、application/json、tex
  4. 第四次挥手：主动关闭方收到FIN后，发送一个ACK给被动关闭方，确认序号为收到序号+1，至此，完成四次挥手。
 
 ## 4. 进程和线程
-- 浏览器（多进程）包含了Browser进程（浏览器的主进程）、第三方插件进程和GPU进程（浏览器渲染进程），其中GPU进程（多线程）和Web前端密切相关，包含以下线程：
+- 浏览器（多进程）包含了1 个浏览器（Browser）主进程、1 个 GPU 进程、1 个网络（NetWork）进程、多个渲染进程和多个插件进程。其中渲染进程和Web前端密切相关，包含以下线程：
 	- GUI渲染线程
 	- JS引擎线程
 	- 事件触发线程（和EventLoop密切相关）
 	- 定时触发器线程
 	- 异步HTTP请求线程
 - 注意：GUI渲染线程和JS引擎线程是互斥的，为了防止DOM渲染的不一致性，其中一个线程执行时另一个线程会被挂起。
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/93caa132594d427781b8c186e32df1e5~tplv-k3u1fbpfcp-zoom-1.image)
+
 
 ## 5. Cookie、Session、Token、JWT (参考：https://juejin.im/post/5e055d9ef265da33997a42cc)
 ### Cookie
@@ -480,6 +483,7 @@ HTTP 1.1是基于文本分割解析的协议,也没有序号,如果多路复用�
    - 避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。
 
 ## 10. localstorage sessionstorage和cookie的区别
+
 ### 基本概念及使用场景
 
 cookie：它的主要用于保存登陆信息，比如登陆某个网站市场可以看到'记住密码’，这就是通过在cookie中存入一段辨别用户身份的数据来实现的。判断用户是否登录过网站，以便实现下次自动登录或记住密码；保存事件信息等
@@ -489,6 +493,7 @@ sessionStorage：会话，是可以将一部分数据在当前会话中保存下
 localStorage：常用于长期登录（判断用户是否已登录），适合长期保存在本地的数据。
 
 ### 区别
+
 1. 存储大小
    - cookie：一般不超过4K（因为每次http请求都会携带cookie、所以cookie只适合保存很小的数据，如会话标识）
    - sessionStorage：5M或者更大
@@ -502,10 +507,33 @@ localStorage：常用于长期登录（判断用户是否已登录），适合�
    - sessionStorage：在同一个浏览器窗口是共享的（不同浏览器、同一个页面也是不共享的）
    - localStorage：在所有同源窗口中都是共享的
 4. 通信
-   - ccokie：十种携带在同源的http请求中，即使不需要，故cookie在浏览器和服务器之间来回传递；如果使用cookie保存过多数据会造成性能问题
+   - cokie：十种携带在同源的http请求中，即使不需要，故cookie在浏览器和服务器之间来回传递；如果使用cookie保存过多数据会造成性能问题
    - sessionStorage：仅在客户端（即浏览器）中保存，不参与和服务器的通信；不会自动把数据发送给服务器，仅在本地保存
    - localStorage：仅在客户端（即浏览器）中保存，不参与和服务器的通信；不会自动把数据发送给服务器，仅在本地保存
 5. 易用性
    - cookie：需要自己进行封装，原生的cookie接口不够友好
    - sessionStorage：原生接口可以接受，可以封装来对Object和Array有更好的支持
    - localStorage：原生接口可以接受，可以封装来对Object和Array有更好的支持
+
+## 11. 从输入URL到页面呈现发生了什么
+1. 查找强缓存
+2. DNS解析
+3. TCP连接
+4. 发送http请求
+5. 关闭TCP连接
+6. 浏览器渲染
+
+
+
+# node.js
+
+## 1.node.js的优缺点
+### 优点：
+1. 事件驱动，通过闭包很容易实现客户端的生命活期。
+2. 不用担心多线程，锁，并行计算的问题
+3. V8引擎速度非常快
+4. 对于游戏来说，写一遍游戏逻辑代码，前端后端通用
+### 缺点：
+1. nodejs更新很快，可能会出现版本兼容
+2. nodejs还不算成熟，还没有大制作
+3. nodejs不像其他的服务器，对于不同的链接，不支持进程和线程操作
