@@ -251,7 +251,17 @@ keep-alive 是 Vue  内置的一个组件，可以使被包含的组件保留状
 ## 19. vue项目中遇到的问题
 - 打包文件太大，使用路由懒加载，对代码进行分割，require/import；
 - setInterval路由跳转继续运行并没有及时进行销毁，在beforeDestory中clearInterval；
-- 
+
+## 20. vue插件开发
+
+## 21. vue-router 原理
+（https://www.cnblogs.com/xiaozhumaopao/p/12716266.html）
+
+1. 实现一个静态install方法，因为作为插件都必须有这个方法，给Vue.use()去调用；
+2. 可以监听路由变化；
+3. 解析配置的路由，即解析router的配置项routes，能根据路由匹配到对应组件；
+4. 实现两个全局组件router-link和router-view；（最终落地点）
+
 
 # React
 ## 1. 高阶组件

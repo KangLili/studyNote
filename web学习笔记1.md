@@ -1,5 +1,6 @@
 # CSS、JS、TS
 
+# CSS
 ## 1. BFC 
 BFC的全称为 Block Formatting Context，也就是块级格式化上下文的意思。用于决定块盒子的布局及浮动相互影响范围的一个区域。Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。
     
@@ -208,10 +209,10 @@ column-span 为 all 的元素始终会创建一个新的BFC，即使该元素没
 
 # JS
 ## 1. 节流和防抖
-
-函数节流: 指定时间间隔内只会执行一次任务；
-
-函数防抖: 触发事件后 n 秒后才执行函数，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。防抖函数分为非立即执行版和立即执行版。
+- 节流：
+ 每隔一段时间执行一次
+- 防抖：
+ 触发事件后 n 秒后才执行函数，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。防抖函数分为非立即执行版和立即执行版。
 
 ### 使用场景
 在进行resize、scroll、mousemove，输入框内容校验等操作时，如果事件处理函数调用的频率无限制，会加重浏览器的负担，导致用户体验非常糟糕。此时我们可以采用debounce（防抖）和throttle（节流）的方式来减少调用频率，同时又不影响实际效果。
@@ -226,12 +227,31 @@ Currying 为实现多参函数提供了一个递归降解的实现思路——�
 
 ## 3. ES6/ES7/ES8特性
 ### ES6
-  常用：类(class)、模块化(export/import)、箭头函数、函数参数默认值、解构赋值、模板字符串、对象属性简写、延展操作符、Promise、支持let/const
-  - 注意：
-   1. 类的数据类型就是函数，类本身就指向构造函数。 class 类内部this指向实例对象，把属性定义在this上即 this.a = 'xxx'  则这个a属性是实例的自有属性；直接定义在类上的属性则是原型对象上的属性。如果在一个方法前，加上static关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。类的内部所有定义的方法，都是不可枚举的（non-enumerable）。
-   2. export default输出则不用知道模块内有哪些属性和方法，本质上，export default就是输出一个叫做default的变量或方法。
-   3. 类和模块的内部，默认就是严格模式。
-   4. 设置函数参数默认值，则参数不能在函数体内改变。如果设置了默认值，且有重复的形参，则会报错。
+  - 常用：类(class)、模块化(export/import)、箭头函数、函数参数默认值、解构赋值、模板字符串、对象属性简写、延展操作符、Promise、支持let/const、Set、Map、Symbol
+
+####　map set weakset weakmap的区别：
+- Set 类似于数组，但是成员的值都是唯一的，没有重复的值。
+- WeakSet 结构与 Set 类似，与Set的区别：
+  1. WeakSet 的成员只能是对象，而不能是其他类型的值。
+  2. WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于 WeakSet 之中。ES6 规定 WeakSet 不可遍历。
+- Map 类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。
+- WeakMap结构与Map结构类似，也是用于生成键值对的集合。WeakMap与Map的区别有两点:
+  1. WeakMap只接受对象作为键名（null除外），不接受其他类型的值作为键名。
+  2. WeakMap的键名所指向的对象，不计入垃圾回收机制。
+
+####　Symbol
+- 定义：表示独一无二的值
+- 使用：
+  1. 命名冲突。作为对象属性名，能防止某一个键被不小心改写或覆盖。Object.getOwnPropertySymbols()方法，可以获取指定对象的所有 Symbol 属性名。该方法返回一个数组，成员是当前对象的所有用作属性名的 Symbol 值。或者Reflect.ownKeys()方法可以返回所有类型的键名，包括常规键名和 Symbol 键名。其他遍历方式不能获取到。
+  2. 模拟私有属性。由于以 Symbol 值作为键名，不会被常规方法遍历得到。我们可以利用这个特性，为对象定义一些非私有的、但又希望只用于内部的方法。
+  3. 消除魔术字符串。魔术字符串指的是，在代码之中多次出现、与代码形成强耦合的某一个具体的字符串或者数值。风格良好的代码，应该尽量消除魔术字符串，改由含义清晰的变量代替。
+
+####　注意：
+1. 类的数据类型就是函数，类本身就指向构造函数。 class 类内部this指向实例对象，把属性定义在this上即 this.a = 'xxx'  则这个a属性是实例的自有属性；直接定义在类上的属性则是原型对象上的属性。如果在一个方法前，加上static关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。类的内部所有定义的方法，都是不可枚举的（non-enumerable）。
+2. export default输出则不用知道模块内有哪些属性和方法，本质上，export default就是输出一个叫做default的变量或方法。
+3. 类和模块的内部，默认就是严格模式。
+4. 设置函数参数默认值，则参数不能在函数体内改变。如果设置了默认值，且有重复的形参，则会报错。
+  
    
 ### ES7
   - Array.prototype.includs()
@@ -341,6 +361,9 @@ this 永远指向最后调用它的那个对象;
 ![](https://user-gold-cdn.xitu.io/2020/7/8/1732e78b4305d0d0?w=936&h=266&f=png&s=17366)
 
 ## 10. JavaScript 数据类型
+### 原始数据类型
+undefined、null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）、唯一值（Symbol）
+
 ### 基本类型（存放在栈中）
   基本数据类型是指存放在栈中的简单数据段，数据大小确定，内存空间大小可以分配，它们是直接按值存放的，所以可以直接按值访问。基本数据类型的值是没有办法添加属性和方法的 
 
@@ -431,7 +454,7 @@ this 永远指向最后调用它的那个对象;
  
 
 ### 建议：
-基本数据类型用typeof,对象用Obejct.propertype.toString.call()
+基本数据类型用typeof,对象用Obejct.prototype.toString.call()
 ```
 function getType(obj){
   let type  = typeof obj;
@@ -448,6 +471,11 @@ function getType(obj){
 
 ### 浅拷贝
 一层拷贝。是创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 ，所以如果其中一个对象改变了这个地址，就会影响到另一个对象。
+
+- 实现方法：
+  1. Object.assign()
+  2. 展开运算符...
+  3. lodash的_.clone方法
 
 ### 深拷贝(deepClone)
 无限层级拷贝。是将一个对象从内存中完整的拷贝一份出来,从堆内存中开辟一个新的区域存放新对象,且修改新对象不会影响原对象。
@@ -476,6 +504,10 @@ function getType(obj){
 
 ## 14.跨域
   (参考视频：https://www.bilibili.com/video/BV1SE411r7yk)
+
+### 什么是跨域
+- 同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的重要安全机制。同源指：协议、域名、端口号必须一致。
+
 ### 解决方案：
  - 同源方案：生产上后台前端都部署到同一台服务器；平时开发测试时，前端在本地用xampp(把MySql/php/apache等集合在一起的)构建一个web服务器，修改host文件，把本地服务器域名定位到请求后台数据对应的服务器域名，模拟同源效果。
  - JSONP
@@ -497,14 +529,17 @@ function getType(obj){
 
  - CORS(跨域资源共享)
     - 前端：正常发请求
-    - 后端：需要在处理正式请求之前先处理预检OPSIONS请求，看是否允许当前跨域请求。服务器端需要设置响应头的Access-Control-Allow-Methods，Access-Control-Allow-Headers，Access-Control-Allow-Origin，Access-Control-Allow-Credentials等字段，来允许哪个源可以进行跨域传输，哪些方式，是否允许携带cookie，允许哪些请求头。如果允许源写的*，则不允许携带cookie，如果写具体地址，只支持写一个。
+    - 后端：对于非简单请求（非简单请求：方式：非get、post||类型：JSON格式||有自定义请求头）需要在处理正式请求之前先处理预检OPSIONS请求，看是否允许当前跨域请求。服务器端需要设置响应头的Access-Control-Allow-Methods，Access-Control-Allow-Headers，Access-Control-Allow-Origin，Access-Control-Allow-Credentials等字段，来允许哪个源可以进行跨域传输，哪些方式，是否允许携带cookie，允许哪些请求头。如果允许源写的*，则不允许携带cookie，如果写具体地址，只支持写一个。
     
     
  - 代理
  
     是指利用服务器之间没有同源策略限制，可以在请求的域名下部署一个代理服务器，通过代理服务器去请求别的跨域的服务器。
 
-    - proxy 代理 -- 需要前端配webpack、webpack-dev-server
+    - proxy 代理 -- 需要前端配webpack、webpack-dev-server。NodeJS 中间件 http-proxy-middleware 实现跨域代理，原理大致与 nginx 相同，都是通过启一个代理服务器，实现数据的转发。
+      1. 配置代理(需要安装插件webpack-dev-server)
+      2. 在webpack.config.js中配置devServer的proxy属性，target参数填写被请求的地址，如果target是域名需要额外添加一个参数changeOrigin: true，否则会代理失败。
+
     - nginx 反向代理 -- 不需要前端做什么
  
 ## 15. 面向对象OOP
@@ -615,7 +650,7 @@ JSON对数据的描述性比XML较差。
 	  - 注意：宏任务并非全是异步任务，主代码块就是属于宏任务的一种
 	在执行完每一个宏任务之后，会去看看微任务队列有没有新添加的任务，如果有，会先将微任务队列中的任务清空，才会继续执行下一个宏任务
 
-	- 微任务：process.nextTick（Nodejs） 、Promise 、Await(下面代码)、Object.observe 、MutationObserver
+	- 微任务：process.nextTick（Nodejs） 、Promise 、Await(下面代码)、Object.observe 、MutationObserver（监听DOM树变化）
 	
 	- 执行优先级上，先执行宏任务macrotask，再执行微任务mincrotask。
 	
@@ -636,7 +671,7 @@ JSON对数据的描述性比XML较差。
 	3. 事件冒泡阶段(bubbling phase)：事件开始时由最具体的元素(文档中嵌套层次最深的那个节点)接收，然后逐级向上传播到较为不具体的节点(文档)
 
 - 首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件，最后一个阶段是冒泡阶段，可以在这个阶段对事件做出响应
-- addEventListener()方法中的第三个参数设置为true时，即为事件捕获阶段
+- addEventListener()方法中的第三个参数设置为true时，即为事件捕获阶段.第三个参数可以设置为option对象，属性有capture/once/passive，都是Boolean，passive为true则永不会调用preventDefault().
 - target/currentTarget/relateTarget具体指向什么目标。
   - target 是事件触发的真实元素
   - currentTarget 是事件绑定的元素
@@ -647,7 +682,7 @@ JSON对数据的描述性比XML较差。
 
 ## 24. 变量提升
 - var命令会发生“变量提升”现象，即变量可以在声明之前使用，值为undefined
-- 当前上下文代码执行之前，会把var/function声明或定义，带var的只声明，带function声明+定义，如果遇到{}新老浏览器表现不一致(兼容ES3、兼容ES6)
+- 当前上下文代码执行之前，会把var/function声明或定义，带var的只声明，带function声明+定义，并且函数声明的提升优先级大于变量声明的提升。如果遇到{}新老浏览器表现不一致(兼容ES3、兼容ES6)
   - IE浏览器 <= IE10: 不管{}，还是一如既往的function声明+定义，而且不会存在块级作用域。
   - 新版本浏览器：{}中的function在全局下声明不再定义。{}中出现的function/let/cosnt会创建一个块级作用域。
 
@@ -665,18 +700,15 @@ JSON对数据的描述性比XML较差。
     - -function () { /* code */ } ();
     - +function () { /* code */ } ();
 
-## 26. 消抖和节流
-- 防抖：
- 触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间
-- 节流：
- 每隔一段时间执行一次
+## 26. 
+
 
 ## 27. let/const/var 的区别
   1. var声明的变量会存在变量提升，而let 和 const的变量不会存在变量提升
   2. var声明的变量会挂载到window上，会放在全局，let 和 const声明的变量不会
   3. let和const声明的变量会形成块级作用域，var不会
   4. let和const不能在同一作用域下声明同一变量名，而var可以
-  5. const用来声明一个常量，一旦声明其值不可更改。所以const在声明的时候必须要初始化，不能先声明再初始化否则会报错。
+  5. const用来声明一个常量，一旦声明其值不可更改。所以const在声明的时候必须要初始化，不能先声明再初始化否则会报错。注意：const声明的只是栈区内容不变。如果const命名的常量是一个对象，则可以修改对象属性的值，因为const命名的这个常量只是指向这个对象的引用地址，只要内存地址不改变就可以。
 
 ## 28. 数组的遍历
   1. for，优化：先将数组长度存起来
@@ -744,7 +776,16 @@ JSON对数据的描述性比XML较差。
 2. onclick：在DOM结构如果绑定两个 “onclick” 事件，只会执行第一个；在脚本通过匿名函数的方式绑定的只会执行最后一个事件。
 
 ## 32. Promise
+
+### 概念：
+- Promise 是异步编程的一种解决方案。解决了回调地狱，也就是多层嵌套的问题。
+
+### 使用场景
+- 多个方法按顺序执行
+
+### 相关方法
 - all: 接收的参数是一个数组，返回的是一个Promise，判断是否每一项都处理完了，如果都处理完就走resolve，只要有一个传入的promise没有成功则走reject。
+
 
 ## 33. 设计模式
 （https://juejin.im/post/6844903734800023559）
@@ -755,6 +796,51 @@ JSON对数据的描述性比XML较差。
 - 职责链模式
 - 策略模式
 - 发布订阅模式：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知
+
+## 34. 数组的方法
+### 1. join
+- 用法：`arrayObject.join(separator)`
+- 把数组中的所有元素放入一个字符串，元素是通过指定的分隔符进行分隔的，返回一个字符串。如果省略separator参数，则使用逗号作为分隔符。
+
+### 2. slice
+- 用法：`arrayObject.slice(start,end)`
+- 返回一个新的数组，包含从 start 到 end （不包括该元素）的 arrayObject 中的元素。参数可以为负数，end可以省略。该方法并不会修改数组。
+
+### 3. splice
+- `arrayObject.splice(index,howmany,item1,.....,itemX)`
+- index：必需，整数。howmany：必需，要删除的项目数量，如果设置为 0，则不会删除项目。itemX：可选，向数组添加的新项目。
+- 返回被删除项目的新数组，会改变原始数组。
+
+
+
+## 35. 字符串的方法
+### 1. split
+- 把一个字符串分割成字符串数组。返回的字符串数组中的字串不包括 separator 自身。
+- 用法：stringObject.split(separator,howmany)。separator	必需，字符串或正则表达式，从该参数指定的地方分割 stringObject。
+- 注意：
+  - 如果把空字符串 ("") 用作 separator，那么 stringObject 中的每个字符之间都会被分割。
+  - String.split() 执行的操作与 Array.join 执行的操作是相反的。
+
+### 2. substring
+- 用法：`stringObject.substring(start,stop)`
+- 返回值：返回一个新的字符串，其内容是从 start 处到 stop-1 处的所有字符，其长度为 stop 减 start。start和stop为非负数，stop可以省略。
+
+### 3. substr
+- 用法：`stringObject.substr(start,length)`
+- 返回值：返回一个新的字符串，包含从 stringObject 的 start（包括 start 所指的字符） 处开始的 length 个字符。start可为负数（区别于subtring），length可省略。
+- 注意：ECMAscript 没有对该方法进行标准化，因此反对使用它。
+
+
+## 36. Object.preventExtensions()、Object.seal()、Object.freeze() 的区别
+- Object.preventExtensions()：不可增加，可修改，可删除。仅阻止添加自身的属性，但其对象类型的原型依然可以添加新的属性。
+- Object.seal()： 不可增加，可修改，不可删除。
+- Object.freeze():  不可增加，不可修改，不可删除。对象的原型也不能被修改。只冻结一层，如果属性是对象，该属性的属性可以修改。
+
+## 37. href与src的区别
+### href
+- Hypertext Reference的缩写，超文本引用，它指向一些网络资源，建立和当前元素或者说是本文档的链接关系。在加载它的时候，不会停止对当前文档的处理，浏览器会继续往下走。常用在a、link等标签。
+### src
+- source的所写，表示的是对资源的引用，它指向的内容会嵌入到当前标签所在的位置。由于src的内容是页面必不可少的一部分，因此浏览器在解析src时会停下来对后续文档的处理，直到src的内容加载完毕。常用在script、img、iframe标签中，我们建议js文件放在HTML文档的最后面。如果js文件放在了head标签中，可以使用window.onload实现js的最后加载。
 
 
 # TS
